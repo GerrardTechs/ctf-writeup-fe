@@ -4,6 +4,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import api from '@/lib/axios';
 import toast from 'react-hot-toast';
 import { ArrowLeft, Download, Send, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
+import { generatePdf } from '@/utils/exportPdf';
+import { useAuthStore } from '@/store/auth.store';
 
 interface Image { id: string; secureUrl: string; }
 interface Step {
@@ -39,6 +41,7 @@ export function WriteupDetailPage() {
   const [writeup, setWriteup] = useState<Writeup | null>(null);
   const [loading, setLoading] = useState(true);
   const [publishing, setPublishing] = useState(false);
+  const { user } = useAuthStore();
   const [expandedSteps, setExpandedSteps] = useState<Set<number>>(new Set([0]));
 
   useEffect(() => { fetchWriteup(); }, [id]);
@@ -83,6 +86,17 @@ export function WriteupDetailPage() {
     }
   };
 
+  const handleExportPdf = async () => {
+    if (!writeup) return;
+    const toastId = toast.loading('Generating PDF...');
+    try {
+      await generatePdf(writeup, user?.username ?? 'anonymous');
+      toast.success('PDF berhasil didownload!', { id: toastId });
+    } catch {
+      toast.error('Gagal generate PDF', { id: toastId });
+    }
+  };
+
   const toggleStep = (index: number) => {
     const updated = new Set(expandedSteps);
     updated.has(index) ? updated.delete(index) : updated.add(index);
@@ -124,6 +138,13 @@ export function WriteupDetailPage() {
               <Download className="w-4 h-4" />
               Export .md
             </button>
+            <button
+  onClick={handleExportPdf}
+  className="flex items-center gap-2 px-4 py-2 text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
+>
+  <Download className="w-4 h-4" />
+  Export PDF
+</button>
             {writeup.status === 'DRAFT' && (
               <button
                 onClick={handlePublish}

@@ -14,7 +14,12 @@ import './index.css';
 
 function App() {
   const { init } = useAuthStore();
-  React.useEffect(() => { init(); }, []);
+  const [ready, setReady] = React.useState(false);
+  
+  React.useEffect(() => {
+    init();
+    setReady(true);
+  }, []);
 
   return (
     <BrowserRouter>
