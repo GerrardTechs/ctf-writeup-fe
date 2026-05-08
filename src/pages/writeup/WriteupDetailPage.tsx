@@ -139,12 +139,12 @@ export function WriteupDetailPage() {
               Export .md
             </button>
             <button
-  onClick={handleExportPdf}
-  className="flex items-center gap-2 px-4 py-2 text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
->
-  <Download className="w-4 h-4" />
-  Export PDF
-</button>
+              onClick={handleExportPdf}
+              className="flex items-center gap-2 px-4 py-2 text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
+            >
+              <Download className="w-4 h-4" />
+              Export PDF
+            </button>
             {writeup.status === 'DRAFT' && (
               <button
                 onClick={handlePublish}
