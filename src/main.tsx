@@ -9,6 +9,7 @@ import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { DashboardPage } from '@/pages/dashboard/DashboardPage';
 import { WriteupFormPage } from '@/pages/writeup/WriteupFormPage';
 import { WriteupDetailPage } from '@/pages/writeup/WriteupDetailPage';
+import { WriteupEditPage } from '@/pages/writeup/WriteupEditPage';
 
 import './index.css';
 
@@ -37,6 +38,9 @@ function App() {
         } />
         <Route path="/writeup/:id" element={
           <ProtectedRoute><WriteupDetailPage /></ProtectedRoute>
+        } />
+        <Route path="/writeup/:id/edit" element={
+          <ProtectedRoute><WriteupEditPage /></ProtectedRoute>
         } />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

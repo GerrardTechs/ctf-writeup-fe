@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Navbar } from '@/components/layout/Navbar';
 import api from '@/lib/axios';
 import toast from 'react-hot-toast';
-import { ArrowLeft, Download, Send, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, Download, Send, Loader2, ChevronDown, ChevronUp, Pencil } from 'lucide-react';
 import { generatePdf } from '@/utils/exportPdf';
 import { useAuthStore } from '@/store/auth.store';
 
@@ -144,6 +144,13 @@ export function WriteupDetailPage() {
             >
               <Download className="w-4 h-4" />
               Export .md
+            </button>
+            <button
+            onClick={() => navigate(`/writeup/${id}/edit`)}
+            className="flex items-center gap-2 px-4 py-2 text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
+            >
+            <Pencil className="w-4 h-4" />
+              Edit
             </button>
             <button
               onClick={handleExportPdf}
