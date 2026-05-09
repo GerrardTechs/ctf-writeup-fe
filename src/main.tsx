@@ -13,14 +13,6 @@ import { WriteupDetailPage } from '@/pages/writeup/WriteupDetailPage';
 import './index.css';
 
 function App() {
-  const { init } = useAuthStore();
-  const [ready, setReady] = React.useState(false);
-  
-  React.useEffect(() => {
-    init();
-    setReady(true);
-  }, []);
-
   return (
     <BrowserRouter>
       <Toaster
