@@ -87,10 +87,17 @@ export function WriteupDetailPage() {
   };
 
   const handleExportPdf = async () => {
-    if (!writeup) return;
     const toastId = toast.loading('Generating PDF...');
     try {
-      await generatePdf(writeup, user?.username ?? 'anonymous');
+      const response = await api.get(`/writeups/${id}/pdf`, {
+        responseType: 'blob',
+      });
+      const url = URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${writeup?.title.toLowerCase().replace(/\s+/g, '-')}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
       toast.success('PDF berhasil didownload!', { id: toastId });
     } catch {
       toast.error('Gagal generate PDF', { id: toastId });
