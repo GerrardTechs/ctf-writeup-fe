@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Navbar } from '@/components/layout/Navbar';
 import api from '@/lib/axios';
 import toast from 'react-hot-toast';
-import { ArrowLeft, Download, Send, Loader2, ChevronDown, ChevronUp, Pencil } from 'lucide-react';
+import { ArrowLeft, Download, Send, Loader2, ChevronDown, ChevronUp, Pencil, Sparkles } from 'lucide-react';
 import { generatePdf } from '@/utils/exportPdf';
 import { useAuthStore } from '@/store/auth.store';
 
@@ -43,6 +43,11 @@ export function WriteupDetailPage() {
   const [publishing, setPublishing] = useState(false);
   const { user } = useAuthStore();
   const [expandedSteps, setExpandedSteps] = useState<Set<number>>(new Set([0]));
+  const [enhancing, setEnhancing] = useState(false);
+  const [enhancedPreview, setEnhancedPreview] = useState<{
+    description: string;
+    steps: { orderIndex: number; description: string }[];
+  } | null>(null);
 
   useEffect(() => { fetchWriteup(); }, [id]);
 
@@ -104,6 +109,33 @@ export function WriteupDetailPage() {
     }
   };
 
+  const handleEnhance = async () => {
+    setEnhancing(true);
+    const toastId = toast.loading('AI sedang menarasikan writeup...');
+    try {
+      const { data } = await api.post(`/writeups/${id}/enhance`);
+      setEnhancedPreview(data.data);
+      toast.success('Narasi berhasil dibuat! Review dulu sebelum apply.', { id: toastId });
+    } catch (err: any) {
+      toast.error(err.response?.data?.error ?? 'Gagal generate narasi', { id: toastId });
+    } finally {
+      setEnhancing(false);
+    }
+  };
+  
+  const handleApplyEnhancement = async () => {
+    if (!enhancedPreview) return;
+    const toastId = toast.loading('Menyimpan narasi...');
+    try {
+      await api.post(`/writeups/${id}/enhance/apply`, enhancedPreview);
+      toast.success('Narasi berhasil disimpan!', { id: toastId });
+      setEnhancedPreview(null);
+      fetchWriteup();
+    } catch {
+      toast.error('Gagal menyimpan narasi', { id: toastId });
+    }
+  };
+
   const toggleStep = (index: number) => {
     const updated = new Set(expandedSteps);
     updated.has(index) ? updated.delete(index) : updated.add(index);
@@ -151,6 +183,17 @@ export function WriteupDetailPage() {
             >
             <Pencil className="w-4 h-4" />
               Edit
+            </button>
+            <button
+            onClick={handleEnhance}
+            disabled={enhancing}
+            className="flex items-center gap-2 px-4 py-2 text-sm border border-primary/50 rounded text-primary hover:bg-primary/10 transition-colors disabled:opacity-50"
+            >
+            {enhancing
+              ? <Loader2 className="w-4 h-4 animate-spin" />
+              : <Sparkles className="w-4 h-4" />
+            }
+              {enhancing ? 'Enhancing...' : 'Enhance with AI'}
             </button>
             <button
               onClick={handleExportPdf}
@@ -201,6 +244,53 @@ export function WriteupDetailPage() {
             <p className="text-sm">{writeup.steps.length} steps</p>
           </div>
         </div>
+
+        {enhancedPreview && (
+  <div className="bg-card border border-primary/30 rounded-lg p-5 mb-6">
+    <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center gap-2">
+        <Sparkles className="w-4 h-4 text-primary" />
+        <h3 className="text-sm font-semibold text-primary">AI Enhancement Preview</h3>
+      </div>
+      <div className="flex gap-2">
+        <button
+          onClick={() => setEnhancedPreview(null)}
+          className="px-3 py-1 text-xs border border-border rounded text-muted-foreground hover:text-foreground transition-colors"
+        >
+          Discard
+        </button>
+        <button
+          onClick={handleApplyEnhancement}
+          className="px-3 py-1 text-xs bg-primary text-primary-foreground rounded hover:opacity-90 transition-opacity"
+        >
+          Apply Changes
+        </button>
+      </div>
+    </div>
+
+    <div className="space-y-4">
+      <div>
+        <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+          Description (Enhanced)
+        </p>
+        <p className="text-sm text-foreground bg-background rounded p-3 border border-border">
+          {enhancedPreview.description}
+        </p>
+      </div>
+
+      {enhancedPreview.steps.map((step, i) => (
+        <div key={i}>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+            Step {i + 1} (Enhanced)
+          </p>
+          <p className="text-sm text-foreground bg-background rounded p-3 border border-border">
+            {step.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
         {/* Steps */}
         <div className="space-y-3">
