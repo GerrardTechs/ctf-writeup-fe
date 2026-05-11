@@ -10,6 +10,8 @@ import { DashboardPage } from '@/pages/dashboard/DashboardPage';
 import { WriteupFormPage } from '@/pages/writeup/WriteupFormPage';
 import { WriteupDetailPage } from '@/pages/writeup/WriteupDetailPage';
 import { WriteupEditPage } from '@/pages/writeup/WriteupEditPage';
+import { SharePage } from '@/pages/SharePage';
+
 
 import './index.css';
 
@@ -42,6 +44,7 @@ function App() {
         <Route path="/writeup/:id/edit" element={
           <ProtectedRoute><WriteupEditPage /></ProtectedRoute>
         } />
+        <Route path="/share/:token" element={<SharePage />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
