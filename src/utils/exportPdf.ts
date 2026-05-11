@@ -180,7 +180,7 @@ export async function generatePdf(writeup: WriteupData, username: string) {
   pdf.setFontSize(9);
   pdf.setFont('helvetica', 'bold');
   pdf.setTextColor(148, 163, 184);
-  pdf.text('CTF WRITEUP GENERATOR', ML + 12, y + 5.5);
+  pdf.text('PWNSCRIBE', ML + 12, y + 5.5);
 
   pdf.setFontSize(8);
   pdf.setFont('helvetica', 'normal');
