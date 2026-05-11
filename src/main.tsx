@@ -11,6 +11,7 @@ import { WriteupFormPage } from '@/pages/writeup/WriteupFormPage';
 import { WriteupDetailPage } from '@/pages/writeup/WriteupDetailPage';
 import { WriteupEditPage } from '@/pages/writeup/WriteupEditPage';
 import { SharePage } from '@/pages/SharePage';
+import { LandingPage } from '@/pages/LandingPage';
 
 
 import './index.css';
@@ -45,7 +46,8 @@ function App() {
           <ProtectedRoute><WriteupEditPage /></ProtectedRoute>
         } />
         <Route path="/share/:token" element={<SharePage />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/" element={<LandingPage />} />
+<Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
