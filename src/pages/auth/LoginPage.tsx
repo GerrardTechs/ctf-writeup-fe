@@ -32,7 +32,7 @@ export function LoginPage() {
         <div className="bg-card border border-border rounded-lg p-8">
           <div className="flex items-center justify-center gap-2 mb-8">
             <Shield className="w-8 h-8 text-primary" />
-            <h1 className="text-xl font-bold tracking-wider uppercase">CTF Writeup</h1>
+            <h1 className="text-xl font-bold tracking-wider uppercase">PWNSCRIBE</h1>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
