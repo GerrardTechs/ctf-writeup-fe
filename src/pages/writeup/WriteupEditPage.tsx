@@ -228,7 +228,7 @@ export function WriteupEditPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-8">
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
@@ -246,7 +246,7 @@ export function WriteupEditPage() {
           <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
             Challenge Info
           </h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="col-span-2">
               <label className="block text-sm text-muted-foreground mb-1">Challenge Title *</label>
               <input
@@ -443,23 +443,23 @@ export function WriteupEditPage() {
         </button>
 
         {/* Actions */}
-        <div className="flex gap-3 justify-end">
-          <button
-            onClick={() => navigate(`/writeup/${id}`)}
-            className="px-6 py-2 text-sm border border-border rounded text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={saving}
-            className="px-6 py-2 text-sm bg-primary text-primary-foreground rounded flex items-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
-          >
-            {saving && <Loader2 className="w-4 h-4 animate-spin" />}
-            <Save className="w-4 h-4" />
-            {saving ? 'Saving...' : 'Save Changes'}
-          </button>
-        </div>
+        <div className="flex flex-col sm:flex-row gap-3 justify-end">
+  <button
+    onClick={() => navigate(`/writeup/${id}`)}
+    className="w-full sm:w-auto px-6 py-2 text-sm border border-border rounded text-muted-foreground hover:text-foreground transition-colors"
+  >
+    Cancel
+  </button>
+  <button
+    onClick={handleSubmit}
+    disabled={saving}
+    className="w-full sm:w-auto px-6 py-2 text-sm bg-primary text-primary-foreground rounded flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
+  >
+    {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+    <Save className="w-4 h-4" />
+    {saving ? 'Saving...' : 'Save Changes'}
+  </button>
+</div>
       </div>
     </div>
   );

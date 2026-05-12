@@ -31,8 +31,8 @@ export function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="w-full max-w-md">
-        <div className="bg-card border border-border rounded-lg p-8">
+      <div className="w-full max-w-md px-4">
+      <div className="bg-card border border-border rounded-lg p-6 md:p-8">
           <div className="flex items-center justify-center gap-2 mb-8">
             <Shield className="w-8 h-8 text-primary" />
             <h1 className="text-xl font-bold tracking-wider uppercase">CTF Writeup</h1>

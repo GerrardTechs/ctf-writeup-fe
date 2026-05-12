@@ -187,75 +187,75 @@ const [copied, setCopied] = useState(false);
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-8">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-3">
-            <button onClick={() => navigate('/dashboard')} className="text-muted-foreground hover:text-foreground transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <div>
-              <h1 className="text-2xl font-bold">{writeup.title}</h1>
-              <p className="text-muted-foreground text-sm mt-0.5">
-                {writeup.ctfName} · {writeup.category} ·{' '}
-                <span className={difficultyColor[writeup.difficulty]}>{writeup.difficulty}</span>
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={handleExport}
-              className="flex items-center gap-2 px-4 py-2 text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
-            >
-              <Download className="w-4 h-4" />
-              Export .md
-            </button>
-            <button
-            onClick={() => navigate(`/writeup/${id}/edit`)}
-            className="flex items-center gap-2 px-4 py-2 text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
-            >
-            <Pencil className="w-4 h-4" />
-              Edit
-            </button>
-            <button
-  onClick={handleShare}
-  disabled={sharing}
-  className="flex items-center gap-2 px-4 py-2 text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors disabled:opacity-50"
->
-  {sharing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Share2 className="w-4 h-4" />}
-  Share
-</button>
-            <button
-            onClick={handleEnhance}
-            disabled={enhancing}
-            className="flex items-center gap-2 px-4 py-2 text-sm border border-primary/50 rounded text-primary hover:bg-primary/10 transition-colors disabled:opacity-50"
-            >
-            {enhancing
-              ? <Loader2 className="w-4 h-4 animate-spin" />
-              : <Sparkles className="w-4 h-4" />
-            }
-              {enhancing ? 'Enhancing...' : 'Enhance with AI'}
-            </button>
-            <button
-              onClick={handleExportPdf}
-              className="flex items-center gap-2 px-4 py-2 text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
-            >
-              <Download className="w-4 h-4" />
-              Export PDF
-            </button>
-            {writeup.status === 'DRAFT' && (
-              <button
-                onClick={handlePublish}
-                disabled={publishing}
-                className="flex items-center gap-2 px-4 py-2 text-sm bg-primary text-primary-foreground rounded hover:opacity-90 transition-opacity disabled:opacity-50"
-              >
-                {publishing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-                Publish
-              </button>
-            )}
-          </div>
-        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+  <div className="flex items-center gap-3">
+    <button onClick={() => navigate('/dashboard')} className="text-muted-foreground hover:text-foreground transition-colors shrink-0">
+      <ArrowLeft className="w-5 h-5" />
+    </button>
+    <div>
+      <h1 className="text-xl md:text-2xl font-bold">{writeup.title}</h1>
+      <p className="text-muted-foreground text-sm mt-0.5">
+        {writeup.ctfName} · {writeup.category} ·{' '}
+        <span className={difficultyColor[writeup.difficulty]}>{writeup.difficulty}</span>
+      </p>
+    </div>
+  </div>
+
+  {/* Tombol — scroll horizontal di mobile */}
+  <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 shrink-0 max-w-full">
+    <button
+      onClick={handleExport}
+      className="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors whitespace-nowrap"
+    >
+      <Download className="w-3.5 h-3.5" />
+      <span className="hidden sm:inline">Export </span>.md
+    </button>
+    <button
+      onClick={() => navigate(`/writeup/${id}/edit`)}
+      className="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors whitespace-nowrap"
+    >
+      <Pencil className="w-3.5 h-3.5" />
+      Edit
+    </button>
+    <button
+      onClick={handleShare}
+      disabled={sharing}
+      className="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors whitespace-nowrap disabled:opacity-50"
+    >
+      {sharing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Share2 className="w-3.5 h-3.5" />}
+      Share
+    </button>
+    <button
+      onClick={handleEnhance}
+      disabled={enhancing}
+      className="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm border border-primary/50 rounded text-primary hover:bg-primary/10 transition-colors whitespace-nowrap disabled:opacity-50"
+    >
+      {enhancing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+      <span className="hidden sm:inline">{enhancing ? 'Enhancing...' : 'Enhance with AI'}</span>
+      <span className="sm:hidden">AI</span>
+    </button>
+    <button
+      onClick={handleExportPdf}
+      className="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors whitespace-nowrap"
+    >
+      <Download className="w-3.5 h-3.5" />
+      PDF
+    </button>
+    {writeup.status === 'DRAFT' && (
+      <button
+        onClick={handlePublish}
+        disabled={publishing}
+        className="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm bg-primary text-primary-foreground rounded hover:opacity-90 transition-opacity whitespace-nowrap disabled:opacity-50"
+      >
+        {publishing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+        Publish
+      </button>
+    )}
+  </div>
+</div>
 
         {/* Info Card */}
         <div className="bg-card border border-border rounded-lg p-5 mb-6 grid grid-cols-2 gap-4">

@@ -52,20 +52,21 @@ export function DashboardPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="max-w-5xl mx-auto px-6 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">My Writeups</h1>
-            <p className="text-muted-foreground text-sm mt-1">{writeups.length} writeup total</p>
-          </div>
-          <button
-            onClick={() => navigate('/writeup/new')}
-            className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition-opacity"
-          >
-            <Plus className="w-4 h-4" />
-            New Writeup
-          </button>
-        </div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+  <div>
+    <h1 className="text-xl md:text-2xl font-bold text-foreground">My Writeups</h1>
+    <p className="text-muted-foreground text-sm mt-1">{writeups.length} writeup total</p>
+  </div>
+  <button
+    onClick={() => navigate('/writeup/new')}
+    className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded text-sm font-medium hover:opacity-90 transition-opacity w-full sm:w-auto justify-center"
+  >
+    <Plus className="w-4 h-4" />
+    New Writeup
+  </button>
+</div>
+
+<div className="max-w-5xl mx-auto px-4 md:px-6 py-6 md:py-8">
 
         {loading ? (
           <div className="flex justify-center py-20">
@@ -99,11 +100,15 @@ export function DashboardPage() {
                         {w.status}
                       </span>
                     </div>
-                    <p className="text-muted-foreground text-xs mt-0.5">
-                      {w.ctfName} · {w.category} ·{' '}
-                      <span className={difficultyColor[w.difficulty]}>{w.difficulty}</span>
-                      {' '}· {w._count.steps} steps
-                    </p>
+                    <p className="text-muted-foreground text-xs mt-0.5 flex flex-wrap gap-x-1">
+  <span>{w.ctfName}</span>
+  <span>·</span>
+  <span>{w.category}</span>
+  <span>·</span>
+  <span className={difficultyColor[w.difficulty]}>{w.difficulty}</span>
+  <span>·</span>
+  <span>{w._count.steps} steps</span>
+</p>
                   </div>
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />

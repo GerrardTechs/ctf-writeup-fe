@@ -65,7 +65,7 @@ export function LandingPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/login')}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="hidden sm:block text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Login
           </button>
@@ -80,8 +80,7 @@ export function LandingPage() {
       </nav>
 
       {/* ── HERO ───────────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 pt-24 pb-20 text-center">
-
+      <section className="max-w-5xl mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16 md:pb-20 text-center">
         {/* Badge */}
         <div
           className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 text-xs text-primary font-medium mb-8"
@@ -110,7 +109,7 @@ export function LandingPage() {
 
         {/* Headline */}
         <h1
-          className="text-5xl font-bold text-foreground mb-4 leading-tight"
+          className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? 'translateY(0)' : 'translateY(24px)',
@@ -138,7 +137,7 @@ export function LandingPage() {
 
         {/* CTA buttons */}
         <div
-          className="flex items-center justify-center gap-4 flex-wrap"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? 'translateY(0)' : 'translateY(24px)',
@@ -181,7 +180,7 @@ export function LandingPage() {
       </section>
 
       {/* ── FEATURES ───────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 pb-24">
+      <section className="max-w-5xl mx-auto px-4 md:px-6 pb-16 md:pb-24">
         <div
           className="text-center mb-12"
           style={{
@@ -226,7 +225,7 @@ export function LandingPage() {
           <span className="text-sm font-bold text-foreground tracking-wider uppercase">PwnScribe</span>
         </div>
         <p className="text-xs text-muted-foreground">
-          Automated CTF Write-Up Generator · Made with ❤️ to assist those in need.s
+          Automated CTF Write-Up Generator · Made with ❤️ to assist those in need.
         </p>
       </footer>
     </div>
