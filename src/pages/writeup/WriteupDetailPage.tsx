@@ -7,8 +7,6 @@ import { ArrowLeft, Download, Send, Loader2, ChevronDown, ChevronUp, Pencil, Spa
 import { generatePdf } from '@/utils/exportPdf';
 import { useAuthStore } from '@/store/auth.store';
 import { Share2, Copy, Check, Trash2 as Revoke } from 'lucide-react';
-const [credits, setCredits] = useState<number | null>(null);
-const [userPlan, setUserPlan] = useState<string>('FREE');
 
 interface Image { id: string; secureUrl: string; }
 interface Step {
@@ -44,17 +42,16 @@ export function WriteupDetailPage() {
   const [writeup, setWriteup] = useState<Writeup | null>(null);
   const [loading, setLoading] = useState(true);
   const [publishing, setPublishing] = useState(false);
-  const { user } = useAuthStore();
   const [expandedSteps, setExpandedSteps] = useState<Set<number>>(new Set([0]));
-  const [enhancing, setEnhancing] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
-const [sharing, setSharing] = useState(false);
-const [copied, setCopied] = useState(false);
-  const [enhancedPreview, setEnhancedPreview] = useState<{
-    description: string;
-    steps: { orderIndex: number; description: string }[];
-  } | null>(null);
+  const [sharing, setSharing] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [enhancing, setEnhancing] = useState(false);
+  const [enhancedPreview, setEnhancedPreview] = useState<any>(null);
+  const [credits, setCredits] = useState<number | null>(null);
+  const [userPlan, setUserPlan] = useState<string>('FREE');
 
+  const { user } = useAuthStore();
   useEffect(() => {
     fetchWriteup();
     fetchCredits();
