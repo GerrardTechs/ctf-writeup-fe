@@ -12,11 +12,20 @@ import { WriteupDetailPage } from '@/pages/writeup/WriteupDetailPage';
 import { WriteupEditPage } from '@/pages/writeup/WriteupEditPage';
 import { SharePage } from '@/pages/SharePage';
 import { LandingPage } from '@/pages/LandingPage';
+import { useThemeStore } from '@/store/theme.store';
 
 
 import './index.css';
 
 function App() {
+  const { init: initAuth } = useAuthStore();
+  const { init: initTheme } = useThemeStore();
+
+  React.useEffect(() => {
+    initAuth();
+    initTheme();
+  }, []);
+
   return (
     <BrowserRouter>
       <Toaster

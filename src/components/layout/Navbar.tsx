@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/auth.store';
-import { LogOut, Terminal, Shield, Menu, X } from 'lucide-react';
+import { LogOut, Terminal, Shield, Menu, X, Sun, Moon} from 'lucide-react';
 import { useState } from 'react';
+import { useThemeStore } from '@/store/theme.store';
+
 
 export function Navbar() {
   const { user, logout } = useAuthStore();
+  const { theme, toggle } = useThemeStore();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -22,7 +25,7 @@ export function Navbar() {
         >
           <Shield className="w-5 h-5 text-primary" />
           <span className="font-bold text-foreground tracking-wider text-sm uppercase">
-            PWNSCRIBE
+            PwnScribe
           </span>
         </div>
 
@@ -32,6 +35,19 @@ export function Navbar() {
             <Terminal className="w-4 h-4" />
             <span>{user?.username}</span>
           </div>
+
+          {/* Theme toggle */}
+          <button
+            onClick={toggle}
+            className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded"
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {theme === 'dark'
+              ? <Sun className="w-4 h-4" />
+              : <Moon className="w-4 h-4" />
+            }
+          </button>
+
           <button
             onClick={handleLogout}
             className="flex items-center gap-1 text-muted-foreground hover:text-foreground text-sm transition-colors"
@@ -42,15 +58,23 @@ export function Navbar() {
         </div>
 
         {/* Mobile hamburger */}
-        <button
-          className="sm:hidden text-muted-foreground hover:text-foreground transition-colors"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+        <div className="sm:hidden flex items-center gap-2">
+          <button
+            onClick={toggle}
+            className="text-muted-foreground hover:text-foreground transition-colors p-1"
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+          <button
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile menu dropdown */}
+      {/* Mobile menu */}
       {menuOpen && (
         <div className="sm:hidden mt-3 pb-2 border-t border-border pt-3 space-y-3">
           <div className="flex items-center gap-2 text-muted-foreground text-sm">

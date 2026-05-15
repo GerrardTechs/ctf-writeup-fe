@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Terminal, FileText, Sparkles, Download, ArrowRight, ChevronRight } from 'lucide-react';
+import { Shield, Terminal, FileText, Sparkles, Download, ArrowRight, ChevronRight, Sun, Moon } from 'lucide-react';
+import { useThemeStore } from '@/store/theme.store';
+
 
 const features = [
   {
@@ -31,6 +33,7 @@ export function LandingPage() {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [featVisible, setFeatVisible] = useState(false);
+  const { theme, toggle } = useThemeStore();
 
   useEffect(() => {
     // Hero animation
@@ -63,6 +66,12 @@ export function LandingPage() {
           </span>
         </div>
         <div className="flex items-center gap-3">
+        <button
+  onClick={toggle}
+  className="text-muted-foreground hover:text-foreground transition-colors p-1"
+>
+  {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+</button>
           <button
             onClick={() => navigate('/login')}
             className="hidden sm:block text-sm text-muted-foreground hover:text-foreground transition-colors"
