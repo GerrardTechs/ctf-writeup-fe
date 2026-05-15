@@ -136,7 +136,7 @@ export function WriteupDetailPage() {
       setEnhancedPreview(data.data);
       if (data.data.creditsRemaining !== 'unlimited') {
         setCredits(data.data.creditsRemaining);
-        toast.success(`Narasi berhasil! Sisa credit: ${data.data.creditsRemaining}/5`, { id: toastId });
+        toast.success(`Narasi berhasil! Sisa credit: ${data.data.creditsRemaining}/8`, { id: toastId });
       } else {
         toast.success('Narasi berhasil dibuat!', { id: toastId });
       }
