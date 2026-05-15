@@ -27,7 +27,7 @@ const features = [
   },
 ];
 
-const categories = ['WEB', 'PWN', 'CRYPTO', 'FORENSICS', 'MISC', 'REV', 'OSINT'];
+const categories = ['WEB', 'PWN', 'CRYPTO', 'FORENSICS', 'MISC', 'REV', 'OSINT', 'HARDWARE', 'MOBILE', 'CLOUD', 'BLOCKCHAIN', 'NETWORK', 'STEGO', 'PWNABLE', 'TRIVIA'];
 
 export function LandingPage() {
   const navigate = useNavigate();

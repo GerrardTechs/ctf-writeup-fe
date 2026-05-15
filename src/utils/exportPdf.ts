@@ -37,6 +37,14 @@ const CAT_ICON: Record<string, string> = {
   MISC: '[MISC]',
   REV: '[REV]',
   OSINT: '[OSINT]',
+  HARDWARE: '[HARDWARE]', 
+  MOBILE: '[MOBILE]', 
+  CLOUD: '[CLOUD]', 
+  BLOCKCHAIN: 'BLOCKCHAIN', 
+  NETWORK: '[NET]', 
+  STEGO: '[STEGO]', 
+  PWNABLE: '[PWNABLE]', 
+  TRIVIA: '[TRIVIA]'
 };
 
 export async function generatePdf(writeup: WriteupData, username: string) {

@@ -22,7 +22,7 @@ interface Step {
   deleted?: boolean;
 }
 
-const CATEGORIES = ['WEB', 'PWN', 'CRYPTO', 'FORENSICS', 'MISC', 'REV', 'OSINT'];
+const CATEGORIES = ['WEB', 'PWN', 'CRYPTO', 'FORENSICS', 'MISC', 'REV', 'OSINT', 'HARDWARE', 'MOBILE', 'CLOUD', 'BLOCKCHAIN', 'NETWORK', 'STEGO', 'PWNABLE', 'TRIVIA'];
 const DIFFICULTIES = ['EASY', 'MEDIUM', 'HARD', 'INSANE'];
 
 const difficultyColor: Record<string, string> = {
