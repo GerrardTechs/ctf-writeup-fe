@@ -7,6 +7,8 @@ import { ArrowLeft, Download, Send, Loader2, ChevronDown, ChevronUp, Pencil, Spa
 import { generatePdf } from '@/utils/exportPdf';
 import { useAuthStore } from '@/store/auth.store';
 import { Share2, Copy, Check, Trash2 as Revoke } from 'lucide-react';
+const [credits, setCredits] = useState<number | null>(null);
+const [userPlan, setUserPlan] = useState<string>('FREE');
 
 interface Image { id: string; secureUrl: string; }
 interface Step {
@@ -53,7 +55,18 @@ const [copied, setCopied] = useState(false);
     steps: { orderIndex: number; description: string }[];
   } | null>(null);
 
-  useEffect(() => { fetchWriteup(); }, [id]);
+  useEffect(() => {
+    fetchWriteup();
+    fetchCredits();
+  }, [id]);
+  
+  const fetchCredits = async () => {
+    try {
+      const { data } = await api.get('/ai/credits');
+      setCredits(data.data.credits);
+      setUserPlan(data.data.plan);
+    } catch { /* silent */ }
+  };
 
   const fetchWriteup = async () => {
     try {
@@ -114,14 +127,28 @@ const [copied, setCopied] = useState(false);
   };
 
   const handleEnhance = async () => {
+    if (userPlan !== 'PRO' && credits !== null && credits <= 0) {
+      toast.error('Credit AI habis! Upgrade ke Pro untuk enhance unlimited.');
+      return;
+    }
+  
     setEnhancing(true);
     const toastId = toast.loading('AI sedang menarasikan writeup...');
     try {
       const { data } = await api.post(`/writeups/${id}/enhance`);
       setEnhancedPreview(data.data);
-      toast.success('Narasi berhasil dibuat! Review dulu sebelum apply.', { id: toastId });
+      if (data.data.creditsRemaining !== 'unlimited') {
+        setCredits(data.data.creditsRemaining);
+        toast.success(`Narasi berhasil! Sisa credit: ${data.data.creditsRemaining}/5`, { id: toastId });
+      } else {
+        toast.success('Narasi berhasil dibuat!', { id: toastId });
+      }
     } catch (err: any) {
-      toast.error(err.response?.data?.error ?? 'Gagal generate narasi', { id: toastId });
+      if (err.response?.data?.code === 'INSUFFICIENT_CREDITS') {
+        toast.error('Credit AI habis! Upgrade ke Pro.', { id: toastId });
+      } else {
+        toast.error(err.response?.data?.error ?? 'Gagal generate narasi', { id: toastId });
+      }
     } finally {
       setEnhancing(false);
     }
@@ -228,15 +255,31 @@ const [copied, setCopied] = useState(false);
       {sharing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Share2 className="w-3.5 h-3.5" />}
       Share
     </button>
-    <button
-      onClick={handleEnhance}
-      disabled={enhancing}
-      className="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm border border-primary/50 rounded text-primary hover:bg-primary/10 transition-colors whitespace-nowrap disabled:opacity-50"
-    >
-      {enhancing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
-      <span className="hidden sm:inline">{enhancing ? 'Enhancing...' : 'Enhance with AI'}</span>
-      <span className="sm:hidden">AI</span>
-    </button>
+    <div className="flex items-center gap-1.5 whitespace-nowrap">
+  {credits !== null && userPlan !== 'PRO' && (
+    <span className={`text-xs px-2 py-0.5 rounded-full border ${
+      credits > 0
+        ? 'border-primary/30 text-primary bg-primary/5'
+        : 'border-red-500/30 text-red-400 bg-red-500/5'
+    }`}>
+      {credits}/5
+    </span>
+  )}
+  {userPlan === 'PRO' && (
+    <span className="text-xs px-2 py-0.5 rounded-full border border-yellow-500/30 text-yellow-400 bg-yellow-500/5">
+      PRO
+    </span>
+  )}
+  <button
+    onClick={handleEnhance}
+    disabled={enhancing || (userPlan !== 'PRO' && credits !== null && credits <= 0)}
+    className="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm border border-primary/50 rounded text-primary hover:bg-primary/10 transition-colors whitespace-nowrap disabled:opacity-50"
+  >
+    {enhancing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+    <span className="hidden sm:inline">{enhancing ? 'Enhancing...' : 'Enhance with AI'}</span>
+    <span className="sm:hidden">AI</span>
+  </button>
+</div>
     <button
       onClick={handleExportPdf}
       className="flex items-center gap-2 px-3 py-2 text-xs sm:text-sm border border-border rounded text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors whitespace-nowrap"
