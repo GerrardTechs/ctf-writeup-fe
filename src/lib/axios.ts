@@ -65,6 +65,15 @@ api.interceptors.response.use(
       }
     }
 
+    // Di dalam interceptor response, tambahkan handle 403
+if (error.response?.status === 403) {
+  const code = error.response?.data?.code;
+  if (code === 'IP_BANNED' || code === 'BRUTE_FORCE_BLOCKED') {
+    window.location.href = '/403';
+    return Promise.reject(error);
+  }
+}
+
     return Promise.reject(error);
   }
 );

@@ -13,6 +13,8 @@ import { WriteupEditPage } from '@/pages/writeup/WriteupEditPage';
 import { SharePage } from '@/pages/SharePage';
 import { LandingPage } from '@/pages/LandingPage';
 import { useThemeStore } from '@/store/theme.store';
+import { NotFoundPage } from '@/pages/errors/NotFoundPage';
+import { ForbiddenPage } from '@/pages/errors/ForbiddenPage';
 
 
 import './index.css';
@@ -55,6 +57,8 @@ function App() {
           <ProtectedRoute><WriteupEditPage /></ProtectedRoute>
         } />
         <Route path="/share/:token" element={<SharePage />} />
+        <Route path="/403" element={<ForbiddenPage />} />
+<Route path="*" element={<NotFoundPage />} />
         <Route path="/" element={<LandingPage />} />
 <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
