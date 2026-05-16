@@ -8,17 +8,19 @@ export function RegisterPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ username: '', email: '', password: '' });
-  
+
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   setLoading(true);
   try {
     await api.post('/auth/register', form);
+    console.log('Register berhasil, redirect ke verify-otp');
     toast.success('Registrasi berhasil! Cek email kamu untuk kode OTP.');
     navigate('/verify-otp', { state: { email: form.email } });
   } catch (err: any) {
     const details = err.response?.data?.details;
     if (details) {
+      console.log('Register error:', err.response?.status, err.response?.data);
       const firstError = Object.values(details)[0] as string[];
       toast.error(firstError[0]);
     } else {
