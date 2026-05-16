@@ -11,20 +11,25 @@ export function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ email: '', password: '' });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const { data } = await api.post('/auth/login', form);
-      login(data.data.user, data.data.token, data.data.refreshToken);
-      toast.success(`Welcome back, ${data.data.user.username}!`);
-      navigate('/dashboard');
-    } catch (err: any) {
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  try {
+    const { data } = await api.post('/auth/login', form);
+    login(data.data.user, data.data.token, data.data.refreshToken);
+    toast.success(`Welcome back, ${data.data.user.username}!`);
+    navigate('/dashboard');
+  } catch (err: any) {
+    if (err.response?.data?.code === 'EMAIL_NOT_VERIFIED') {
+      toast.error('Email belum diverifikasi. Cek inbox kamu.');
+      navigate('/verify-otp', { state: { email: form.email } });
+    } else {
       toast.error(err.response?.data?.error ?? 'Login gagal');
-    } finally {
-      setLoading(false);
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">

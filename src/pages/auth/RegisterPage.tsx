@@ -8,26 +8,26 @@ export function RegisterPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ username: '', email: '', password: '' });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await api.post('/auth/register', form);
-      toast.success('Registrasi berhasil! Silakan login.');
-      navigate('/login');
-    } catch (err: any) {
-      const details = err.response?.data?.details;
-      if (details) {
-        const firstError = Object.values(details)[0] as string[];
-        toast.error(firstError[0]);
-      } else {
-        toast.error(err.response?.data?.error ?? 'Registrasi gagal');
-      }
-    } finally {
-      setLoading(false);
+  
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  try {
+    await api.post('/auth/register', form);
+    toast.success('Registrasi berhasil! Cek email kamu untuk kode OTP.');
+    navigate('/verify-otp', { state: { email: form.email } });
+  } catch (err: any) {
+    const details = err.response?.data?.details;
+    if (details) {
+      const firstError = Object.values(details)[0] as string[];
+      toast.error(firstError[0]);
+    } else {
+      toast.error(err.response?.data?.error ?? 'Registrasi gagal');
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">

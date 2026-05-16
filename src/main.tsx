@@ -15,7 +15,7 @@ import { LandingPage } from '@/pages/LandingPage';
 import { useThemeStore } from '@/store/theme.store';
 import { NotFoundPage } from '@/pages/errors/NotFoundPage';
 import { ForbiddenPage } from '@/pages/errors/ForbiddenPage';
-
+import { VerifyOtpPage } from '@/pages/auth/VerifyOtpPage';
 
 import './index.css';
 
@@ -58,9 +58,10 @@ function App() {
         } />
         <Route path="/share/:token" element={<SharePage />} />
         <Route path="/403" element={<ForbiddenPage />} />
-<Route path="*" element={<NotFoundPage />} />
+        <Route path="/verify-otp" element={<VerifyOtpPage />} />
+        <Route path="*" element={<NotFoundPage />} />
         <Route path="/" element={<LandingPage />} />
-<Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
